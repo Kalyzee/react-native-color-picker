@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types';
-import { TouchableOpacity, Slider, View, Image, StyleSheet, InteractionManager, I18nManager } from 'react-native'
+import { TouchableOpacity, View, Image, StyleSheet, InteractionManager, Text, I18nManager } from 'react-native'
+import Slider from "react-native-slider"
 import tinycolor from 'tinycolor2'
 import { createPanResponder } from './utils'
+
+import * as utils from '../../kast-mobileapp/app/utils'
 
 export class HoloColorPicker extends React.PureComponent {
 
@@ -140,47 +143,63 @@ export class HoloColorPicker extends React.PureComponent {
       <View style={style}>
         <View onLayout={this._onLayout} ref='pickerContainer' style={styles.pickerContainer}>
           {!pickerSize ? null :
-          <View>
-            <View
-              {...this._pickerResponder.panHandlers}
-              style={[styles.picker, computed.picker]}
-              collapsable={false}
-            >
-              <Image
-                source={require('../resources/color-circle.png')}
-                resizeMode='contain'
-                style={[styles.pickerImage]}
-              />
-              <View style={[styles.pickerIndicator, computed.pickerIndicator]} />
+            <View>
+              <View
+                {...this._pickerResponder.panHandlers}
+                style={[styles.picker, computed.picker]}
+                collapsable={false}
+              >
+                <Image
+                  source={require('../resources/color-circle.png')}
+                  resizeMode='contain'
+                  style={[styles.pickerImage]}
+                />
+                <View style={[styles.pickerIndicator, computed.pickerIndicator]} />
+              </View>
+              {oldColor &&
+                <TouchableOpacity
+                  style={[styles.selectedPreview, computed.selectedPreview]}
+                  onPress={this._onColorSelected}
+                  activeOpacity={0.7}
+                />
+              }
+              {oldColor &&
+                <TouchableOpacity
+                  style={[styles.originalPreview, computed.originalPreview]}
+                  onPress={this._onOldColorSelected}
+                  activeOpacity={0.7}
+                />
+              }
+              {!oldColor &&
+                <TouchableOpacity
+                  style={[styles.selectedFullPreview, computed.selectedFullPreview]}
+                  onPress={this._onColorSelected}
+                  activeOpacity={0.7}
+                />
+              }
             </View>
-            {oldColor &&
-            <TouchableOpacity
-              style={[styles.selectedPreview, computed.selectedPreview]}
-              onPress={this._onColorSelected}
-              activeOpacity={0.7}
-            />
-            }
-            {oldColor &&
-            <TouchableOpacity
-              style={[styles.originalPreview, computed.originalPreview]}
-              onPress={this._onOldColorSelected}
-              activeOpacity={0.7}
-            />
-            }
-            {!oldColor &&
-            <TouchableOpacity
-              style={[styles.selectedFullPreview, computed.selectedFullPreview]}
-              onPress={this._onColorSelected}
-              activeOpacity={0.7}
-            />
-            }
-          </View>
           }
         </View>
-        { this.props.hideSliders == true ? null :
+        {this.props.hideSliders == true ? null :
           <View>
-            <Slider value={s} onValueChange={this._onSValueChange} />
-            <Slider value={v} onValueChange={this._onVValueChange} />
+            <Text style={styles.text}>Saturation</Text>
+            <Slider
+              value={s}
+              onValueChange={this._onSValueChange}
+              thumbTintColor='#00FF24'
+              minimumTrackTintColor='#AAA'
+              maximumTrackTintColor='#555'
+              thumbStyle={styles.thumb}
+            />
+            <Text style={styles.text}>Brightness</Text>
+            <Slider
+              value={v}
+              onValueChange={this._onVValueChange}
+              thumbTintColor='#00FF24'
+              minimumTrackTintColor='#AAA'
+              maximumTrackTintColor='#555'
+              thumbStyle={styles.thumb}
+            />
           </View>
         }
       </View>
@@ -298,4 +317,15 @@ const styles = StyleSheet.create({
   pickerAlignment: {
     alignItems: 'center',
   },
+  text: {
+    color: "#FFFFFF",
+    fontSize: utils.moderateScale(13),
+    paddingTop: utils.moderateScale(10),
+    backgroundColor: 'transparent'
+  }, thumb: {
+    width: utils.moderateScale(18),
+    height: utils.moderateScale(18),
+    backgroundColor: '#00FF24',
+    borderRadius: utils.moderateScale(18) / 2,
+  }
 })
