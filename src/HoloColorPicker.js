@@ -5,7 +5,7 @@ import Slider from "react-native-slider"
 import tinycolor from 'tinycolor2'
 import { createPanResponder } from './utils'
 
-import * as utils from '../../kast-mobileapp/app/utils'
+import * as utils from 'mobileapps-utils'
 
 export class HoloColorPicker extends React.PureComponent {
 
