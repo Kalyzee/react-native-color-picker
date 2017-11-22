@@ -25,5 +25,8 @@
   "dependencies": {
     "prop-types": "^15.5.10",
     "tinycolor2": "^1.4.1"
+  },
+  "peerDependencies": {
+    "mobileapps-utils": "devoluti0n/mobileapps-utils"
   }
 }
